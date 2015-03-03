@@ -29,4 +29,26 @@ class Program
 
     @wods = wods
   end
+
+  def self.all(&block)
+    AFMotion::JSON.get("http://athletes-tools.herokuapp.com/v1/programs") do |response|
+
+      if response.success?
+        block.call(response.object)
+      else
+        block.call(nil)
+      end
+    end
+  end
+
+  def self.show(id, &block)
+    AFMotion::JSON.get("http://athletes-tools.herokuapp.com/v1/programs/#{id}") do |response|
+
+      if response.success?
+        block.call(response.object)
+      else
+        block.call(nil)
+      end
+    end
+  end
 end
